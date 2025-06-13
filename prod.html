@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda Online Jair Pereira</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Orbitron y Rajdhani para un look futurista -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Rajdhani', 'Orbitron', Arial, sans-serif;
+    }
+    .font-futurista {
+      font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .font-digital {
+      font-family: 'Orbitron', Arial, sans-serif;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-black via-gray-900 to-red-900 min-h-screen text-gray-100">
+
+  <!-- Header futurista -->
+  <header class="bg-gradient-to-r from-black via-red-900 to-gray-900 py-7 px-10 flex justify-between items-center shadow-2xl rounded-b-3xl border-b-4 border-red-600/40">
+    <span class="text-4xl font-black text-red-500 tracking-widest drop-shadow-lg uppercase font-futurista">Tienda Online Jair Pereira</span>
+    <nav class="space-x-10">
+      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Inicio</a>
+      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Productos</a>
+      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Contacto</a>
+      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Salir</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="py-14 text-center">
+    <h1 class="text-5xl font-black text-red-500 mb-4 drop-shadow tracking-widest uppercase font-digital">Explora el Futuro del Shopping</h1>
+    <p class="text-2xl text-red-200 mb-10 font-futurista">Tecnología, innovación y estilo en un solo lugar</p>
+    <div class="flex justify-center">
+      <input id="buscador" type="text" placeholder="Buscar productos..." class="w-full max-w-xl p-4 rounded-2xl border-2 border-red-500 bg-black text-red-200 text-lg focus:outline-none focus:ring-4 focus:ring-red-600/40 shadow-lg transition placeholder-red-400 font-futurista">
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <div id="productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12"></div>
+  </main>
+
+  <!-- Modal global futurista -->
+  <div id="modalGlobal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div class="bg-gradient-to-br from-black via-gray-900 to-red-900 rounded-3xl shadow-2xl p-10 w-96 relative border-4 border-red-600/40">
+      <button id="cerrarModalGlobal" class="absolute top-3 right-4 text-red-400 hover:text-white text-3xl font-black font-futurista">&times;</button>
+      <h3 id="modalTitulo" class="text-2xl font-black mb-4 text-red-300 font-digital"></h3>
+      <img id="modalImagen" src="" alt="" loading="lazy" class="w-36 h-36 object-cover mb-4 mx-auto block rounded-xl border-2 border-red-400/30 bg-black">
+      <p id="modalDescripcion" class="mb-3 text-red-200 font-futurista"></p>
+      <p id="modalCategorias" class="font-semibold text-red-400 mb-2 font-futurista"></p>
+      <p id="modalPrecio" class="font-bold text-red-300 text-lg font-digital"></p>
+    </div>
+  </div>
+
+  <footer class="bg-gradient-to-r from-black via-red-900 to-gray-900 py-7 mt-16 rounded-t-3xl shadow-inner text-center border-t-4 border-red-600/40">
+    <span class="text-red-300 font-semibold text-lg tracking-widest font-futurista">© 2025 Tienda Online Jair Pereira. Todos los derechos reservados.</span>
+  </footer>
+
+  <script>
+    const contenedorProductos = document.getElementById("productos");
+    const buscador = document.getElementById("buscador");
+    let productosGlobal = [];
+
+    // Referencias al modal global
+    const modalGlobal = document.getElementById("modalGlobal");
+    const cerrarModalGlobal = document.getElementById("cerrarModalGlobal");
+    const modalTitulo = document.getElementById("modalTitulo");
+    const modalImagen = document.getElementById("modalImagen");
+    const modalDescripcion = document.getElementById("modalDescripcion");
+    const modalCategorias = document.getElementById("modalCategorias");
+    const modalPrecio = document.getElementById("modalPrecio");
+
+    const cargarProductos = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/productos");
+        if (!response.ok) throw new Error("Error en la respuesta de la API");
+        let productos = await response.json();
+        // Unificar la propiedad a 'imagen'
+        productos = productos.map(p => ({
+          ...p,
+          imagen: p.imagen || p.image || 'https://placehold.co/300x300/f00/222?text=Sin+Imagen'
+        }));
+        productosGlobal = productos;
+        mostrarProductos(productos);
+      } catch (error) {
+        contenedorProductos.innerHTML = "<p class='text-red-400 text-xl font-bold font-futurista'>Error al cargar los productos</p>";
+      }
+    };
+
+    const mostrarProductos = (productos) => {
+      contenedorProductos.innerHTML = "";
+      if (productos.length === 0) {
+        contenedorProductos.innerHTML = "<p class='text-red-400 col-span-4 text-center text-lg font-futurista'>No se encontraron productos</p>";
+        return;
+      }
+      productos.forEach((producto, idx) => {
+        const div = document.createElement("div");
+        div.className = "bg-gradient-to-br from-black via-gray-900 to-red-900 rounded-3xl shadow-2xl p-7 flex flex-col items-center hover:scale-105 hover:shadow-red-400/40 hover:border-red-600 border-2 border-gray-800 transition-all duration-300 relative";
+        div.innerHTML = `
+          <div class="relative w-44 h-44 mb-5 flex items-center justify-center">
+            <img src="${producto.imagen}" alt="${producto.titulo}" loading="lazy" class="w-full h-full object-cover rounded-2xl border-4 border-red-400/30 shadow-lg shadow-red-400/10 bg-black">
+            <span class="absolute top-2 right-2 bg-red-500 text-black text-xs px-2 py-1 rounded-full font-bold shadow font-futurista">NEW</span>
+          </div>
+          <h2 class="text-2xl text-center font-black mb-2 text-red-300 tracking-wide font-digital">${producto.titulo}</h2>
+          <p class="mb-2 text-lg text-red-400 font-semibold font-futurista">Precio: $${producto.precio}</p>
+          <button class="bg-gradient-to-r from-red-600 to-black text-white px-6 py-2 rounded-full mt-2 font-bold shadow hover:from-black hover:to-red-600 hover:text-red-100 transition-colors duration-300 uppercase tracking-widest font-futurista">Agregar</button>
+          <button class="verDetalle bg-black text-red-300 px-4 py-1 rounded-full mt-3 font-semibold hover:bg-red-400 hover:text-black transition border border-red-400/40 font-futurista" data-idx="${idx}">Más Info</button>
+        `;
+        contenedorProductos.appendChild(div);
+      });
+
+      // Asignar evento a todos los botones "Más Info"
+      document.querySelectorAll('.verDetalle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = e.target.getAttribute('data-idx');
+          const producto = productos[idx];
+          modalTitulo.textContent = producto.titulo;
+          modalImagen.src = producto.imagen;
+          modalImagen.alt = producto.titulo;
+          modalDescripcion.textContent = producto.descripcion || "Sin descripción";
+          modalCategorias.textContent = "Categorías: " + ((producto.categorias && producto.categorias.length > 0) ? producto.categorias.map(c => c.nombre).join(', ') : 'Sin categoría');
+          modalPrecio.textContent = "Precio: $" + producto.precio;
+          modalGlobal.classList.remove("hidden");
+        });
+      });
+    };
+
+    cerrarModalGlobal.addEventListener("click", () => modalGlobal.classList.add("hidden"));
+    modalGlobal.addEventListener("click", (e) => {
+      if (e.target === modalGlobal) modalGlobal.classList.add("hidden");
+    });
+
+    buscador.addEventListener("input", (e) => {
+      const texto = e.target.value.toLowerCase();
+      const filtrados = productosGlobal.filter(p =>
+        p.titulo.toLowerCase().includes(texto) ||
+        (p.descripcion && p.descripcion.toLowerCase().includes(texto))
+      );
+      mostrarProductos(filtrados);
+    });
+
+    cargarProductos();
+  </script>
+</body>
+</html>
