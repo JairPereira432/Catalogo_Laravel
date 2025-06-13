@@ -17,7 +17,7 @@ Catalogo_Laravel es una aplicación web desarrollada con Laravel y Tailwind CSS 
 
 1. **Clonar el repositorio**
    ```sh
-   git clone https://github.com/tuusuario/catalogo_laravel.git
+   git clone https://github.com/JairPereira432/catalogo_laravel.git
    cd catalogo_laravel
    ```
 
