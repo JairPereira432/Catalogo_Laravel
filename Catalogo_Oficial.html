@@ -2,150 +2,328 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tienda Online Jair Pereira</title>
+  <title>Examen CRUD Frontend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Orbitron y Rajdhani para un look futurista -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Rajdhani', 'Orbitron', Arial, sans-serif;
-    }
-    .font-futurista {
-      font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
-      letter-spacing: 0.05em;
-    }
-    .font-digital {
-      font-family: 'Orbitron', Arial, sans-serif;
-      letter-spacing: 0.1em;
-    }
+    body { font-family: 'Montserrat', Arial, sans-serif; }
+    .font-futurista { font-family: 'Orbitron', 'Montserrat', Arial, sans-serif; letter-spacing: 0.08em; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-black via-gray-900 to-red-900 min-h-screen text-gray-100">
+<body class="bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] min-h-screen text-[#e0e6ed] font-futurista">
 
-  <!-- Header futurista -->
-  <header class="bg-gradient-to-r from-black via-red-900 to-gray-900 py-7 px-10 flex justify-between items-center shadow-2xl rounded-b-3xl border-b-4 border-red-600/40">
-    <span class="text-4xl font-black text-red-500 tracking-widest drop-shadow-lg uppercase font-futurista">Tienda Online Jair Pereira</span>
-    <nav class="space-x-10">
-      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Inicio</a>
-      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Productos</a>
-      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Contacto</a>
-      <a href="#" class="text-red-200 text-lg font-semibold hover:underline hover:text-red-400 transition font-futurista">Salir</a>
-    </nav>
+<!-- LOGIN -->
+<div id="loginContainer" class="flex items-center justify-center min-h-screen">
+  <form id="formLogin" class="bg-[#232b38] rounded-2xl p-8 w-full max-w-sm flex flex-col gap-5 border-2 border-cyan-400/40 shadow-lg">
+    <h2 class="text-2xl font-bold text-cyan-400 mb-2 text-center font-futurista">Iniciar Sesión</h2>
+    <select id="tipoUsuario" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
+      <option value="" disabled selected>Selecciona tipo de usuario</option>
+      <option value="admin">Administrador</option>
+      <option value="cliente">Cliente</option>
+    </select>
+    <input type="text" id="loginUsuario" placeholder="Usuario" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
+    <input type="password" id="loginPassword" placeholder="Contraseña" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
+    <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded font-bold">Entrar</button>
+    <div id="mensajeLogin" class="text-red-300 text-center"></div>
+  </form>
+</div>
+
+<!-- ADMINISTRADOR -->
+<div id="adminContainer" class="hidden flex flex-col min-h-screen">
+  <header class="bg-[#181c24] shadow-[0_4px_30px_rgba(0,255,255,0.15)] border-b-4 border-cyan-400/60 rounded-b-3xl px-10 py-6 flex flex-col md:flex-row md:justify-between md:items-center">
+    <span class="text-3xl font-black text-cyan-300 tracking-widest uppercase font-futurista mb-4 md:mb-0">Catálogo de Productos</span>
+    <div class="flex items-center gap-8">
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Inicio</a>
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Productos</a>
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Contacto</a>
+      <button onclick="cerrarSesion()" class="text-cyan-200 text-lg font-semibold hover:underline hover:text-cyan-400 transition font-futurista">Salir</button>
+    </div>
   </header>
-
-  <!-- Hero Section -->
-  <section class="py-14 text-center">
-    <h1 class="text-5xl font-black text-red-500 mb-4 drop-shadow tracking-widest uppercase font-digital">Explora el Futuro del Shopping</h1>
-    <p class="text-2xl text-red-200 mb-10 font-futurista">Tecnología, innovación y estilo en un solo lugar</p>
-    <div class="flex justify-center">
-      <input id="buscador" type="text" placeholder="Buscar productos..." class="w-full max-w-xl p-4 rounded-2xl border-2 border-red-500 bg-black text-red-200 text-lg focus:outline-none focus:ring-4 focus:ring-red-600/40 shadow-lg transition placeholder-red-400 font-futurista">
-    </div>
-  </section>
-
-  <main class="max-w-7xl mx-auto px-6 py-10">
-    <div id="productos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12"></div>
-  </main>
-
-  <!-- Modal global futurista -->
-  <div id="modalGlobal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-    <div class="bg-gradient-to-br from-black via-gray-900 to-red-900 rounded-3xl shadow-2xl p-10 w-96 relative border-4 border-red-600/40">
-      <button id="cerrarModalGlobal" class="absolute top-3 right-4 text-red-400 hover:text-white text-3xl font-black font-futurista">&times;</button>
-      <h3 id="modalTitulo" class="text-2xl font-black mb-4 text-red-300 font-digital"></h3>
-      <img id="modalImagen" src="" alt="" loading="lazy" class="w-36 h-36 object-cover mb-4 mx-auto block rounded-xl border-2 border-red-400/30 bg-black">
-      <p id="modalDescripcion" class="mb-3 text-red-200 font-futurista"></p>
-      <p id="modalCategorias" class="font-semibold text-red-400 mb-2 font-futurista"></p>
-      <p id="modalPrecio" class="font-bold text-red-300 text-lg font-digital"></p>
-    </div>
+  <div class="flex flex-col items-center mt-8 mb-8">
+    <h1 class="text-5xl font-extrabold mb-2 text-cyan-300 text-center drop-shadow-[0_2px_8px_cyan] font-futurista">Catálogo de Productos</h1>
+    <p class="text-lg text-red-100 mb-6 text-center">Explora nuestra selección de productos disponibles</p>
+    <input type="text" id="buscadorAdmin" placeholder="Buscar productos..." class="w-full max-w-md p-3 rounded text-black text-lg focus:outline-none" oninput="filtrarCatalogoAdmin()" />
   </div>
+  <main class="flex-1 max-w-6xl mx-auto py-8">
+    <div class="flex justify-end mb-6">
+      <button onclick="mostrarFormulario()" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white font-bold px-6 py-2 rounded shadow-lg hover:from-cyan-300 hover:to-purple-500 transition-all duration-300 border border-cyan-400/40">
+        Agregar Producto
+      </button>
+    </div>
+    <!-- Formulario de agregar/editar -->
+    <form id="formProducto" class="bg-gray-800 rounded-xl p-6 mb-6 flex flex-col gap-3 border border-red-700/40 hidden">
+      <h3 id="tituloForm" class="text-lg font-bold text-red-400">Agregar Producto</h3>
+      <input type="text" id="nombreProducto" placeholder="Nombre" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
+      <input type="number" id="precioProducto" placeholder="Precio" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
+      <input type="text" id="descProducto" placeholder="Descripción" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
+      <input type="url" id="imgProducto" placeholder="URL de la imagen" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
+      <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-bold">Guardar</button>
+      <button type="button" onclick="ocultarFormulario()" class="text-red-400 hover:underline">Cancelar</button>
+    </form>
+    <!-- Catálogo clásico con botones de admin -->
+    <div id="catalogoAdmin" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+      <!-- Renderizado JS -->
+    </div>
+  </main>
+</div>
 
-  <footer class="bg-gradient-to-r from-black via-red-900 to-gray-900 py-7 mt-16 rounded-t-3xl shadow-inner text-center border-t-4 border-red-600/40">
-    <span class="text-red-300 font-semibold text-lg tracking-widest font-futurista">© 2025 Tienda Online Jair Pereira. Todos los derechos reservados.</span>
-  </footer>
+<!-- CLIENTE -->
+<div id="clienteContainer" class="hidden flex flex-col min-h-screen">
+  <header class="bg-[#181c24] shadow-[0_4px_30px_rgba(0,255,255,0.15)] border-b-4 border-cyan-400/60 rounded-b-3xl px-10 py-6 flex flex-col md:flex-row md:justify-between md:items-center">
+    <span class="text-3xl font-black text-cyan-300 tracking-widest uppercase font-futurista mb-4 md:mb-0">Tienda Online Jair</span>
+    <div class="flex items-center gap-8">
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Inicio</a>
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Productos</a>
+      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Contacto</a>
+      <button onclick="cerrarSesion()" class="text-cyan-200 text-lg font-semibold hover:underline hover:text-cyan-400 transition font-futurista">Salir</button>
+    </div>
+  </header>
+  <div class="flex flex-col items-center mt-8 mb-8">
+    <h1 class="text-5xl font-extrabold mb-2 text-cyan-300 text-center drop-shadow-[0_2px_8px_cyan] font-futurista">Catálogo de Productos</h1>
+    <p class="text-lg text-red-100 mb-6 text-center">Explora nuestra selección de productos disponibles</p>
+    <input type="text" id="buscadorCliente" placeholder="Buscar productos..." class="w-full max-w-md p-3 rounded text-black text-lg focus:outline-none" oninput="filtrarCatalogoCliente()" />
+  </div>
+  <main class="flex-1 max-w-6xl mx-auto py-8">
+    <!-- Catálogo clásico sin botones de admin -->
+    <div id="catalogoCliente" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+      <!-- Renderizado JS -->
+    </div>
+  </main>
+</div>
 
-  <script>
-    const contenedorProductos = document.getElementById("productos");
-    const buscador = document.getElementById("buscador");
-    let productosGlobal = [];
+<!-- Modal para información del producto -->
+<div id="modalInfo" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="bg-gray-900 border-2 border-red-600 rounded-2xl p-8 max-w-xs w-full text-center relative shadow-2xl">
+    <button onclick="cerrarModalInfo()" class="absolute top-3 right-4 text-red-400 text-2xl font-bold hover:text-red-600">&times;</button>
+    <img id="modalImg" src="" alt="" class="w-24 h-24 object-cover rounded-lg mx-auto mb-4 border-2 border-red-500">
+    <h2 id="modalTitulo" class="text-xl font-bold text-red-400 mb-2 font-futurista"></h2>
+    <p id="modalPrecio" class="text-red-200 mb-2 font-futurista"></p>
+    <p id="modalDesc" class="text-gray-200 font-futurista"></p>
+  </div>
+</div>
 
-    // Referencias al modal global
-    const modalGlobal = document.getElementById("modalGlobal");
-    const cerrarModalGlobal = document.getElementById("cerrarModalGlobal");
-    const modalTitulo = document.getElementById("modalTitulo");
-    const modalImagen = document.getElementById("modalImagen");
-    const modalDescripcion = document.getElementById("modalDescripcion");
-    const modalCategorias = document.getElementById("modalCategorias");
-    const modalPrecio = document.getElementById("modalPrecio");
+<footer class="bg-[#181c24] text-cyan-200 py-6 mt-12 border-t-2 border-cyan-400/40 text-center font-futurista shadow-[0_-2px_30px_rgba(0,255,255,0.15)]">
+  &copy; 2025 Catálogo de Productos. Todos los derechos reservados.
+</footer>
 
-    const cargarProductos = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/productos");
-        if (!response.ok) throw new Error("Error en la respuesta de la API");
-        let productos = await response.json();
-        // Unificar la propiedad a 'imagen'
-        productos = productos.map(p => ({
-          ...p,
-          imagen: p.imagen || p.image || 'https://placehold.co/300x300/f00/222?text=Sin+Imagen'
-        }));
-        productosGlobal = productos;
-        mostrarProductos(productos);
-      } catch (error) {
-        contenedorProductos.innerHTML = "<p class='text-red-400 text-xl font-bold font-futurista'>Error al cargar los productos</p>";
-      }
-    };
+<script>
+// Usuarios (puedes agregar hasta 30)
+const usuarios = [
+  { usuario: "admin", pass: "admin123", rol: "admin" },
+  { usuario: "cliente1", pass: "cliente123", rol: "cliente" }
+];
 
-    const mostrarProductos = (productos) => {
-      contenedorProductos.innerHTML = "";
-      if (productos.length === 0) {
-        contenedorProductos.innerHTML = "<p class='text-red-400 col-span-4 text-center text-lg font-futurista'>No se encontraron productos</p>";
-        return;
-      }
-      productos.forEach((producto, idx) => {
-        const div = document.createElement("div");
-        div.className = "bg-gradient-to-br from-black via-gray-900 to-red-900 rounded-3xl shadow-2xl p-7 flex flex-col items-center hover:scale-105 hover:shadow-red-400/40 hover:border-red-600 border-2 border-gray-800 transition-all duration-300 relative";
-        div.innerHTML = `
-          <div class="relative w-44 h-44 mb-5 flex items-center justify-center">
-            <img src="${producto.imagen}" alt="${producto.titulo}" loading="lazy" class="w-full h-full object-cover rounded-2xl border-4 border-red-400/30 shadow-lg shadow-red-400/10 bg-black">
-            <span class="absolute top-2 right-2 bg-red-500 text-black text-xs px-2 py-1 rounded-full font-bold shadow font-futurista">NEW</span>
+// Productos con imágenes de Firebase
+let productos = JSON.parse(localStorage.getItem('productos')) || [
+  {
+    nombre: "Laptop X1",
+    precio: 1200.50,
+    descripcion: "Laptop potente para trabajo y gaming, con diseño profesional y máxima velocidad.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/tienda-appweb.firebasestorage.app/o/laptop1.jpg?alt=media&token=d01f6854-8e98-46e8-846b-52f268049234"
+  },
+  {
+    nombre: "Camisa Casual",
+    precio: 25.99,
+    descripcion: "Camisa de algodón premium, cómoda y elegante, ideal para el día a día profesional.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546/firebasestorage.app/o/camisa.jpg?alt=media&token=e9724e33-dd7e-479e-9a6a-b28b5cc8bb50"
+  },
+  {
+    nombre: "Sofá Moderno",
+    precio: 499.99,
+    descripcion: "Sofá minimalista con materiales de alta calidad y confort profesional.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546/firebasestorage.app/o/sofa.jfif?alt=media&token=90457aac-e6b6-4eb9-8845-a3b6d3f64cb7"
+  },
+  {
+    nombre: "Pantalon Militar",
+    precio: 432.50,
+    descripcion: "Pantalon Militar moderno para jovenes",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546.firebasestorage.app/o/pantalones%20militares.jpg?alt=media&token=d5fbccf5-4e40-4d51-a43f-ddafb95088da"
+  }
+];
+
+let editIndex = null;
+
+// Login
+document.getElementById('formLogin').onsubmit = function(e) {
+  e.preventDefault();
+  const tipo = document.getElementById('tipoUsuario').value;
+  const usuario = document.getElementById('loginUsuario').value;
+  const pass = document.getElementById('loginPassword').value;
+  const mensaje = document.getElementById('mensajeLogin');
+  const user = usuarios.find(u => u.usuario === usuario && u.pass === pass && u.rol === tipo);
+  if (user) {
+    document.getElementById('loginContainer').classList.add('hidden');
+    if (tipo === "admin") {
+      document.getElementById('adminContainer').classList.remove('hidden');
+      renderizarCatalogoAdmin();
+    } else {
+      document.getElementById('clienteContainer').classList.remove('hidden');
+      renderizarCatalogoCliente();
+    }
+  } else {
+    mensaje.textContent = "Credenciales incorrectas";
+  }
+};
+
+// CRUD ADMIN
+function renderizarCatalogoAdmin() {
+  const grid = document.getElementById('catalogoAdmin');
+  grid.innerHTML = '';
+  productos.forEach((p, idx) => {
+    grid.innerHTML += `
+      <div class="bg-[#232b38] border-2 border-cyan-400/40 rounded-3xl shadow-[0_2px_20px_rgba(0,255,255,0.10)] p-6 flex flex-col items-center max-w-xs hover:shadow-[0_4px_40px_rgba(0,255,255,0.25)] transition-shadow duration-300">
+        <img src="${p.imagen}" alt="${p.nombre}" class="w-48 h-48 object-cover rounded-xl mb-4 border-2 border-red-500">
+        <h3 class="text-xl font-bold text-red-400 mb-2 font-futurista">${p.nombre}</h3>
+        <p class="text-red-200 mb-2 font-futurista">Precio: $${p.precio}</p>
+        <p class="text-gray-300 mb-4 text-center font-futurista">${p.descripcion}</p>
+        <div class="flex flex-col gap-2 mt-4 w-full">
+          <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded font-bold font-futurista" onclick="editarProducto(${idx})">Actualizar</button>
+          <button class="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded font-bold font-futurista" onclick="eliminarProducto(${idx})">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function mostrarFormulario() {
+  document.getElementById('formProducto').classList.remove('hidden');
+  document.getElementById('tituloForm').textContent = "Agregar Producto";
+  document.getElementById('nombreProducto').value = "";
+  document.getElementById('precioProducto').value = "";
+  document.getElementById('descProducto').value = "";
+  document.getElementById('imgProducto').value = "";
+  editIndex = null;
+}
+
+function ocultarFormulario() {
+  document.getElementById('formProducto').classList.add('hidden');
+}
+
+document.getElementById('formProducto').onsubmit = function(e) {
+  e.preventDefault();
+  const nombre = document.getElementById('nombreProducto').value;
+  const precio = parseFloat(document.getElementById('precioProducto').value);
+  const descripcion = document.getElementById('descProducto').value;
+  const imagen = document.getElementById('imgProducto').value;
+  if (editIndex !== null) {
+    productos[editIndex] = { nombre, precio, descripcion, imagen };
+    editIndex = null;
+  } else {
+    productos.push({ nombre, precio, descripcion, imagen });
+  }
+  ocultarFormulario();
+  renderizarCatalogoAdmin();
+  renderizarCatalogoCliente();
+  // Después de modificar productos (agregar o editar)
+  localStorage.setItem('productos', JSON.stringify(productos));
+};
+
+function editarProducto(idx) {
+  const p = productos[idx];
+  document.getElementById('formProducto').classList.remove('hidden');
+  document.getElementById('tituloForm').textContent = "Actualizar Producto";
+  document.getElementById('nombreProducto').value = p.nombre;
+  document.getElementById('precioProducto').value = p.precio;
+  document.getElementById('descProducto').value = p.descripcion;
+  document.getElementById('imgProducto').value = p.imagen;
+  editIndex = idx;
+}
+
+function eliminarProducto(idx) {
+  if (confirm("¿Eliminar producto?")) {
+    productos.splice(idx, 1);
+    renderizarCatalogoAdmin();
+    renderizarCatalogoCliente();
+    // Después de eliminar un producto
+    localStorage.setItem('productos', JSON.stringify(productos));
+  }
+}
+
+// Filtrar catálogo admin
+function filtrarCatalogoAdmin() {
+  const filtro = document.getElementById('buscadorAdmin').value.toLowerCase();
+  const grid = document.getElementById('catalogoAdmin');
+  grid.innerHTML = '';
+  productos
+    .filter(p => p.nombre.toLowerCase().includes(filtro) || p.descripcion.toLowerCase().includes(filtro))
+    .forEach((p, idx) => {
+      grid.innerHTML += `
+        <div class="bg-[#232b38] border-2 border-cyan-400/40 rounded-3xl shadow-[0_2px_20px_rgba(0,255,255,0.10)] p-6 flex flex-col items-center max-w-xs hover:shadow-[0_4px_40px_rgba(0,255,255,0.25)] transition-shadow duration-300">
+          <img src="${p.imagen}" alt="${p.nombre}" class="w-48 h-48 object-cover rounded-xl mb-4 border-2 border-red-500">
+          <h3 class="text-xl font-bold text-red-400 mb-2 font-futurista">${p.nombre}</h3>
+          <p class="text-red-200 mb-2 font-futurista">Precio: $${p.precio}</p>
+          <p class="text-gray-300 mb-4 text-center font-futurista">${p.descripcion}</p>
+          <div class="flex flex-col gap-2 mt-4 w-full">
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded font-bold font-futurista" onclick="editarProducto(${idx})">Actualizar</button>
+            <button class="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded font-bold font-futurista" onclick="eliminarProducto(${idx})">Delete</button>
           </div>
-          <h2 class="text-2xl text-center font-black mb-2 text-red-300 tracking-wide font-digital">${producto.titulo}</h2>
-          <p class="mb-2 text-lg text-red-400 font-semibold font-futurista">Precio: $${producto.precio}</p>
-          <button class="bg-gradient-to-r from-red-600 to-black text-white px-6 py-2 rounded-full mt-2 font-bold shadow hover:from-black hover:to-red-600 hover:text-red-100 transition-colors duration-300 uppercase tracking-widest font-futurista">Agregar</button>
-          <button class="verDetalle bg-black text-red-300 px-4 py-1 rounded-full mt-3 font-semibold hover:bg-red-400 hover:text-black transition border border-red-400/40 font-futurista" data-idx="${idx}">Más Info</button>
-        `;
-        contenedorProductos.appendChild(div);
-      });
-
-      // Asignar evento a todos los botones "Más Info"
-      document.querySelectorAll('.verDetalle').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const idx = e.target.getAttribute('data-idx');
-          const producto = productos[idx];
-          modalTitulo.textContent = producto.titulo;
-          modalImagen.src = producto.imagen;
-          modalImagen.alt = producto.titulo;
-          modalDescripcion.textContent = producto.descripcion || "Sin descripción";
-          modalCategorias.textContent = "Categorías: " + ((producto.categorias && producto.categorias.length > 0) ? producto.categorias.map(c => c.nombre).join(', ') : 'Sin categoría');
-          modalPrecio.textContent = "Precio: $" + producto.precio;
-          modalGlobal.classList.remove("hidden");
-        });
-      });
-    };
-
-    cerrarModalGlobal.addEventListener("click", () => modalGlobal.classList.add("hidden"));
-    modalGlobal.addEventListener("click", (e) => {
-      if (e.target === modalGlobal) modalGlobal.classList.add("hidden");
+        </div>
+      `;
     });
+}
 
-    buscador.addEventListener("input", (e) => {
-      const texto = e.target.value.toLowerCase();
-      const filtrados = productosGlobal.filter(p =>
-        p.titulo.toLowerCase().includes(texto) ||
-        (p.descripcion && p.descripcion.toLowerCase().includes(texto))
-      );
-      mostrarProductos(filtrados);
+// CLIENTE: solo ver productos (diseño clásico)
+function renderizarCatalogoCliente() {
+  const grid = document.getElementById('catalogoCliente');
+  grid.innerHTML = '';
+  productos.forEach((p, idx) => {
+    grid.innerHTML += `
+      <div class="bg-[#232b38] border-2 border-cyan-400/40 rounded-3xl shadow-[0_2px_20px_rgba(0,255,255,0.10)] p-6 flex flex-col items-center max-w-xs hover:shadow-[0_4px_40px_rgba(0,255,255,0.25)] transition-shadow duration-300">
+        <img src="${p.imagen}" alt="${p.nombre}" class="w-48 h-48 object-cover rounded-xl mb-4 border-2 border-cyan-400">
+        <h3 class="text-xl font-bold text-cyan-300 mb-2 font-futurista">${p.nombre}</h3>
+        <p class="text-cyan-200 mb-6 font-futurista">Precio: $${p.precio}</p>
+        <div class="flex gap-2 mt-4">
+          <button class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white px-6 py-2 rounded font-bold font-futurista">Comprar</button>
+          <button class="bg-black border border-red-500 text-red-300 px-4 py-2 rounded font-futurista" onclick="mostrarModalInfo('${p.nombre}', '${p.descripcion}', '${p.imagen}', '$${p.precio}')">Información</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Filtrar catálogo cliente
+function filtrarCatalogoCliente() {
+  const filtro = document.getElementById('buscadorCliente').value.toLowerCase();
+  const grid = document.getElementById('catalogoCliente');
+  grid.innerHTML = '';
+  productos
+    .filter(p => p.nombre.toLowerCase().includes(filtro) || p.descripcion.toLowerCase().includes(filtro))
+    .forEach((p, idx) => {
+      grid.innerHTML += `
+        <div class="bg-gray-800 rounded-3xl shadow-xl p-6 flex flex-col items-center border-2 border-red-700/40 max-w-xs">
+          <img src="${p.imagen}" alt="${p.nombre}" class="w-48 h-48 object-cover rounded-xl mb-4 border-2 border-red-500">
+          <h3 class="text-xl font-bold text-red-400 mb-2 font-futurista">${p.nombre}</h3>
+          <p class="text-red-200 mb-6 font-futurista">Precio: $${p.precio}</p>
+          <div class="flex gap-2 mt-4">
+            <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-bold font-futurista">Comprar</button>
+            <button class="bg-black border border-red-500 text-red-300 px-4 py-2 rounded font-futurista" onclick="mostrarModalInfo('${p.nombre}', '${p.descripcion}', '${p.imagen}', '$${p.precio}')">Información</button>
+          </div>
+        </div>
+      `;
     });
+}
 
-    cargarProductos();
-  </script>
+// Salir
+function cerrarSesion() {
+  document.getElementById('adminContainer').classList.add('hidden');
+  document.getElementById('clienteContainer').classList.add('hidden');
+  document.getElementById('loginContainer').classList.remove('hidden');
+  document.getElementById('formLogin').reset();
+  document.getElementById('mensajeLogin').textContent = "";
+}
+
+// Mostrar información en modal
+function mostrarModalInfo(nombre, desc, img, precio) {
+  document.getElementById('modalTitulo').textContent = nombre;
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalImg').src = img;
+  document.getElementById('modalPrecio').textContent = "Precio: " + precio;
+  document.getElementById('modalInfo').classList.remove('hidden');
+}
+function cerrarModalInfo() {
+  document.getElementById('modalInfo').classList.add('hidden');
+}
+</script>
 </body>
 </html>
