@@ -22,7 +22,7 @@
       <option value="admin">Administrador</option>
       <option value="cliente">Cliente</option>
     </select>
-    <input type="text" id="loginUsuario" placeholder="Usuario" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
+    <input type="email" id="loginUsuario" placeholder="Correo Gmail" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
     <input type="password" id="loginPassword" placeholder="Contraseña" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
     <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded font-bold">Entrar</button>
     <div id="mensajeLogin" class="text-red-300 text-center"></div>
@@ -34,8 +34,8 @@
   <header class="bg-[#181c24] shadow-[0_4px_30px_rgba(0,255,255,0.15)] border-b-4 border-cyan-400/60 rounded-b-3xl px-10 py-6 flex flex-col md:flex-row md:justify-between md:items-center">
     <span class="text-3xl font-black text-cyan-300 tracking-widest uppercase font-futurista mb-4 md:mb-0">Catálogo de Productos</span>
     <div class="flex items-center gap-8">
-      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Inicio</a>
-      <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Productos</a>
+      <a href="info-catalogo.html" target="_blank" class="hover:underline text-lg font-semibold text-cyan-200 font-futurista">Inicio</a>
+      <a href="#" onclick="mostrarModal('modalProductos'); return false;" class="hover:underline text-lg font-semibold text-cyan-200">Productos</a>
       <a href="#" class="hover:underline text-lg font-semibold text-cyan-200">Contacto</a>
       <button onclick="cerrarSesion()" class="text-cyan-200 text-lg font-semibold hover:underline hover:text-cyan-400 transition font-futurista">Salir</button>
     </div>
@@ -103,6 +103,95 @@
   </div>
 </div>
 
+<!-- Modal para información del catálogo (nuevo) -->
+<div id="modalCatalogoInfo" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="bg-[#232b38] border-2 border-cyan-400 rounded-2xl p-8 max-w-lg w-full text-center relative shadow-2xl">
+    <button onclick="cerrarModalCatalogoInfo()" class="absolute top-3 right-4 text-cyan-200 text-2xl font-bold hover:text-cyan-400">&times;</button>
+    <h2 class="text-3xl font-bold text-cyan-300 mb-4 font-futurista">Catálogo de Productos</h2>
+    <div id="contenidoCatalogo" class="text-left">
+      <!-- Contenido dinámico del catálogo -->
+    </div>
+    <div class="mt-4">
+      <button onclick="cerrarModalCatalogoInfo()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-bold">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal INICIO con información ampliada y profesional -->
+<div id="modalInicio" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="bg-[#232b38] border-2 border-cyan-400 rounded-2xl p-8 max-w-2xl w-full text-center relative shadow-2xl">
+    <button onclick="cerrarModal('modalInicio')" class="absolute top-3 right-4 text-cyan-400 text-2xl font-bold hover:text-cyan-200">&times;</button>
+    <h2 class="text-3xl font-bold text-cyan-300 mb-4 font-futurista">Acerca del Catálogo Futurista</h2>
+    <p class="text-cyan-100 text-lg mb-4 font-futurista">
+      <span class="text-cyan-300 font-bold">Descripción General:</span><br>
+      Este catálogo digital es una plataforma avanzada y dinámica que permite a usuarios y administradores interactuar con una amplia gama de productos de diferentes categorías, como tecnología, moda, hogar, transporte y más. Su diseño futurista y su interfaz intuitiva están pensados para ofrecer una experiencia de usuario moderna, eficiente y atractiva.
+    </p>
+    <p class="text-cyan-100 text-lg mb-4 font-futurista">
+      <span class="text-cyan-300 font-bold">Características Principales:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Visualización de productos con imágenes, precios y detalles relevantes.</li>
+        <li>Búsqueda inteligente para encontrar productos rápidamente por nombre o descripción.</li>
+        <li>Modal de información detallada para cada producto.</li>
+        <li>Botón de compra para simular el interés en adquirir un producto.</li>
+        <li>Gestión de productos en tiempo real para administradores (agregar, editar, eliminar).</li>
+        <li>Sincronización automática de los cambios para todos los usuarios.</li>
+        <li>Seguridad en el acceso mediante autenticación con correo Gmail y contraseña.</li>
+        <li>Diseño responsivo y adaptado a dispositivos móviles y de escritorio.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-100 text-lg mb-4 font-futurista">
+      <span class="text-cyan-300 font-bold">Objetivos del Catálogo:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Facilitar la consulta, comparación y selección de productos destacados.</li>
+        <li>Optimizar la administración del catálogo para mantener la información siempre actualizada.</li>
+        <li>Brindar a los clientes una experiencia de navegación moderna, rápida y segura.</li>
+        <li>Permitir la gestión eficiente de inventario y productos desde cualquier lugar.</li>
+        <li>Fomentar la transparencia y claridad en la información de cada producto.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-100 text-lg mb-4 font-futurista">
+      <span class="text-cyan-300 font-bold">¿Cómo Utilizar el Catálogo?</span><br>
+      <span class="text-cyan-200 font-bold">Clientes:</span> pueden explorar el catálogo, buscar productos, ver información detallada y simular compras.<br>
+      <span class="text-cyan-200 font-bold">Administradores:</span> pueden iniciar sesión para agregar nuevos productos, editar los existentes o eliminarlos. Todos los cambios se reflejan automáticamente para los clientes.
+    </p>
+    <p class="text-cyan-100 text-lg mb-4 font-futurista">
+      <span class="text-cyan-300 font-bold">Ventajas Competitivas:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Interfaz futurista y atractiva que mejora la experiencia del usuario.</li>
+        <li>Actualización instantánea de la información del catálogo.</li>
+        <li>Acceso seguro y personalizado para diferentes tipos de usuarios.</li>
+        <li>Soporte para múltiples categorías de productos.</li>
+        <li>Fácil integración con bases de datos y sistemas empresariales.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-200 font-futurista mt-6">
+      ¡Explora, administra y disfruta de la nueva generación de catálogos digitales!
+    </p>
+  </div>
+</div>
+
+<!-- Modal PRODUCTOS -->
+<div id="modalProductos" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="bg-[#232b38] border-2 border-cyan-400 rounded-2xl p-8 max-w-lg w-full text-center relative shadow-2xl">
+    <button onclick="cerrarModal('modalProductos')" class="absolute top-3 right-4 text-cyan-400 text-2xl font-bold hover:text-cyan-200">&times;</button>
+    <h2 class="text-3xl font-bold text-cyan-300 mb-4 font-futurista">Productos</h2>
+    <p class="text-cyan-100 text-lg mb-2 font-futurista">
+      Aquí encontrarás una variedad de productos seleccionados cuidadosamente para ti. ¡Explora y encuentra lo que buscas!
+    </p>
+  </div>
+</div>
+
+<!-- Modal CONTACTO -->
+<div id="modalContacto" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="bg-[#232b38] border-2 border-cyan-400 rounded-2xl p-8 max-w-lg w-full text-center relative shadow-2xl">
+    <button onclick="cerrarModal('modalContacto')" class="absolute top-3 right-4 text-cyan-400 text-2xl font-bold hover:text-cyan-200">&times;</button>
+    <h2 class="text-3xl font-bold text-cyan-300 mb-4 font-futurista">Contacto</h2>
+    <p class="text-cyan-100 text-lg mb-2 font-futurista">
+      ¿Tienes dudas o sugerencias? Escríbenos a <span class="text-cyan-300 font-bold">soporte.catalogo@gmail.com</span> o llama al <span class="text-cyan-300 font-bold">800-123-4567</span>.
+    </p>
+  </div>
+</div>
+
 <footer class="bg-[#181c24] text-cyan-200 py-6 mt-12 border-t-2 border-cyan-400/40 text-center font-futurista shadow-[0_-2px_30px_rgba(0,255,255,0.15)]">
   &copy; 2025 Catálogo de Productos. Todos los derechos reservados.
 </footer>
@@ -110,8 +199,11 @@
 <script>
 // Usuarios (puedes agregar hasta 30)
 const usuarios = [
-  { usuario: "admin", pass: "admin123", rol: "admin" },
-  { usuario: "cliente1", pass: "cliente123", rol: "cliente" }
+  { usuario: "admin@gmail.com", pass: "admin123", rol: "admin" },
+  { usuario: "jairadmin@gmail.com", pass: "superadmin1", rol: "admin" },
+  { usuario: "cliente1@gmail.com", pass: "cliente123", rol: "cliente" },
+  { usuario: "maria@gmail.com", pass: "maria2024", rol: "cliente" },
+  { usuario: "juan@gmail.com", pass: "juanpass", rol: "cliente" }
 ];
 
 // Productos con imágenes de Firebase
@@ -329,6 +421,28 @@ function mostrarModalInfo(nombre, desc, img, precio) {
 }
 function cerrarModalInfo() {
   document.getElementById('modalInfo').classList.add('hidden');
+}
+
+// Mostrar información del catálogo en modal (nuevo)
+function mostrarModalCatalogoInfo() {
+  const contenido = productos.map(p => `
+    <div class="border-b border-cyan-400 py-4">
+      <h3 class="text-lg font-bold text-cyan-300">${p.nombre}</h3>
+      <p class="text-cyan-200">Precio: $${p.precio}</p>
+      <p class="text-gray-300">${p.descripcion}</p>
+      <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-32 object-cover rounded-lg mt-2 border-2 border-red-500">
+    </div>
+  `).join('');
+  document.getElementById('contenidoCatalogo').innerHTML = contenido;
+  document.getElementById('modalCatalogoInfo').classList.remove('hidden');
+}
+function cerrarModalCatalogoInfo() {
+  document.getElementById('modalCatalogoInfo').classList.add('hidden');
+}
+
+// Cerrar cualquier modal
+function cerrarModal(modalId) {
+  document.getElementById(modalId).classList.add('hidden');
 }
 </script>
 </body>

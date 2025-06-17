@@ -1,0 +1,36 @@
+// Agregar producto
+function agregarProducto(producto) {
+  fetch('http://127.0.0.1:3306/productos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(producto)
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Actualiza la vista o recarga productos
+  });
+}
+
+// Modificar producto
+function modificarProducto(id, producto) {
+  fetch('http://127.0.0.1:3306/productos/' + id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(producto)
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Actualiza la vista o recarga productos
+  });
+}
+
+// Eliminar producto
+function eliminarProducto(id) {
+  fetch('http://127.0.0.1:3306/productos/' + id, {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Actualiza la vista o recarga productos
+  });
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Información del Catálogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .font-futurista { font-family: 'Orbitron', Arial, sans-serif; letter-spacing: 0.08em; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#0f2027] via-[#2c5364] to-[#232526] min-h-screen text-[#e0e6ed] font-futurista">
+  <div class="max-w-3xl mx-auto mt-12 bg-[#232b38] border-2 border-cyan-400 rounded-2xl p-10 shadow-2xl">
+    <h1 class="text-4xl font-extrabold text-cyan-300 mb-6 text-center font-futurista">Acerca del Catálogo Futurista</h1>
+    <p class="text-cyan-100 text-lg mb-6 font-futurista">
+      <span class="text-cyan-300 font-bold">Descripción General:</span><br>
+      Este catálogo digital es una plataforma avanzada y dinámica que permite a usuarios y administradores interactuar con una amplia gama de productos de diferentes categorías, como tecnología, moda, hogar, transporte y más. Su diseño futurista y su interfaz intuitiva están pensados para ofrecer una experiencia de usuario moderna, eficiente y atractiva.
+    </p>
+    <p class="text-cyan-100 text-lg mb-6 font-futurista">
+      <span class="text-cyan-300 font-bold">Características Principales:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Visualización de productos con imágenes, precios y detalles relevantes.</li>
+        <li>Búsqueda inteligente para encontrar productos rápidamente por nombre o descripción.</li>
+        <li>Modal de información detallada para cada producto.</li>
+        <li>Botón de compra para simular el interés en adquirir un producto.</li>
+        <li>Gestión de productos en tiempo real para administradores (agregar, editar, eliminar).</li>
+        <li>Sincronización automática de los cambios para todos los usuarios.</li>
+        <li>Seguridad en el acceso mediante autenticación con correo Gmail y contraseña.</li>
+        <li>Diseño responsivo y adaptado a dispositivos móviles y de escritorio.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-100 text-lg mb-6 font-futurista">
+      <span class="text-cyan-300 font-bold">Objetivos del Catálogo:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Facilitar la consulta, comparación y selección de productos destacados.</li>
+        <li>Optimizar la administración del catálogo para mantener la información siempre actualizada.</li>
+        <li>Brindar a los clientes una experiencia de navegación moderna, rápida y segura.</li>
+        <li>Permitir la gestión eficiente de inventario y productos desde cualquier lugar.</li>
+        <li>Fomentar la transparencia y claridad en la información de cada producto.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-100 text-lg mb-6 font-futurista">
+      <span class="text-cyan-300 font-bold">¿Cómo Utilizar el Catálogo?</span><br>
+      <span class="text-cyan-200 font-bold">Clientes:</span> pueden explorar el catálogo, buscar productos, ver información detallada y simular compras.<br>
+      <span class="text-cyan-200 font-bold">Administradores:</span> pueden iniciar sesión para agregar nuevos productos, editar los existentes o eliminarlos. Todos los cambios se reflejan automáticamente para los clientes.
+    </p>
+    <p class="text-cyan-100 text-lg mb-6 font-futurista">
+      <span class="text-cyan-300 font-bold">Ventajas Competitivas:</span>
+      <ul class="list-disc list-inside text-left mx-auto max-w-lg text-cyan-100">
+        <li>Interfaz futurista y atractiva que mejora la experiencia del usuario.</li>
+        <li>Actualización instantánea de la información del catálogo.</li>
+        <li>Acceso seguro y personalizado para diferentes tipos de usuarios.</li>
+        <li>Soporte para múltiples categorías de productos.</li>
+        <li>Fácil integración con bases de datos y sistemas empresariales.</li>
+      </ul>
+    </p>
+    <p class="text-cyan-200 font-futurista mt-6 text-center">
+      ¡Explora, administra y disfruta de la nueva generación de catálogos digitales!
+    </p>
+  </div>
+</body>
+</html>
