@@ -1,6 +1,6 @@
 // Agregar producto
 function agregarProducto(producto) {
-  fetch('http://127.0.0.1:3306/productos', {
+  fetch('http://localhost:3000/productos', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(producto)
@@ -13,7 +13,7 @@ function agregarProducto(producto) {
 
 // Modificar producto
 function modificarProducto(id, producto) {
-  fetch('http://127.0.0.1:3306/productos/' + id, {
+  fetch('http://localhost:3000/productos/' + id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(producto)
@@ -26,7 +26,7 @@ function modificarProducto(id, producto) {
 
 // Eliminar producto
 function eliminarProducto(id) {
-  fetch('http://127.0.0.1:3306/productos/' + id, {
+  fetch('http://localhost:3000/productos/' + id, {
     method: 'DELETE'
   })
   .then(res => res.json())

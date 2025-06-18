@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // Configura tu conexión MySQL
 const db = mysql.createConnection({
-  host: '127.0.0.1',
+  host: 'localhost',
   user: 'root',
   password: '123JP',
   database: 'catalogo_laravel'
@@ -56,4 +56,4 @@ app.delete('/productos/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log('API corriendo en http://127.0.0.1:3306'));
+app.listen(3000, () => console.log('API corriendo en http://localhost:3000'));

@@ -57,7 +57,7 @@
       <input type="text" id="nombreProducto" placeholder="Nombre" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
       <input type="number" id="precioProducto" placeholder="Precio" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
       <input type="text" id="descProducto" placeholder="Descripción" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
-      <input type="url" id="imgProducto" placeholder="URL de la imagen" class="p-2 rounded bg-gray-700 text-gray-100 border border-red-500" required>
+      <input type="file" id="imagenProducto" accept="image/*" class="p-2 rounded bg-[#181c24] text-cyan-100 border border-cyan-400" required>
       <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-bold">Guardar</button>
       <button type="button" onclick="ocultarFormulario()" class="text-red-400 hover:underline">Cancelar</button>
     </form>
@@ -237,6 +237,24 @@ let productos = JSON.parse(localStorage.getItem('productos')) || [
     precio: 25000,
     descripcion: "Motocicleta deportiva de alto rendimiento y diseño futurista.",
     imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546.firebasestorage.app/o/moto.jpg?alt=media&token=befaa9f2-541d-4277-bb59-269a58444ab5"
+  },
+  {
+    nombre: "Conjunto de ropa para adolescente",
+    precio: 799.00,
+    descripcion: "Conjunto moderno y cómodo para adolescentes.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546.firebasestorage.app/o/6a746e431d4ca7c99ee44f92b2a1193d.jpg?alt=media&token=b74f9881-05eb-498c-ae3b-cb4a85ae72cc"
+  },
+  {
+    nombre: "Camisa Polo",
+    precio: 349.00,
+    descripcion: "Camisa polo clásica, ideal para cualquier ocasión.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546.firebasestorage.app/o/camiseta%20polo.webp?alt=media&token=20a11d3f-d3ab-478a-b9dd-7ebed0c91087"
+  },
+  {
+    nombre: "Zapatos Deportivos",
+    precio: 599.00,
+    descripcion: "Zapatos deportivos ligeros y resistentes para uso diario.",
+    imagen: "https://firebasestorage.googleapis.com/v0/b/catalogo-7a546.firebasestorage.app/o/zapatos%20deportivos.webp?alt=media&token=d1bc0f75-9f44-45ad-ba31-1c340942517f"
   }
 ];
 
@@ -290,7 +308,7 @@ function mostrarFormulario() {
   document.getElementById('nombreProducto').value = "";
   document.getElementById('precioProducto').value = "";
   document.getElementById('descProducto').value = "";
-  document.getElementById('imgProducto').value = "";
+  document.getElementById('imagenProducto').value = "";
   editIndex = null;
 }
 
@@ -303,7 +321,7 @@ document.getElementById('formProducto').onsubmit = function(e) {
   const nombre = document.getElementById('nombreProducto').value;
   const precio = parseFloat(document.getElementById('precioProducto').value);
   const descripcion = document.getElementById('descProducto').value;
-  const imagen = document.getElementById('imgProducto').value;
+  const imagen = document.getElementById('imagenProducto').value;
   if (editIndex !== null) {
     productos[editIndex] = { nombre, precio, descripcion, imagen };
     editIndex = null;
@@ -324,7 +342,7 @@ function editarProducto(idx) {
   document.getElementById('nombreProducto').value = p.nombre;
   document.getElementById('precioProducto').value = p.precio;
   document.getElementById('descProducto').value = p.descripcion;
-  document.getElementById('imgProducto').value = p.imagen;
+  document.getElementById('imagenProducto').value = p.imagen;
   editIndex = idx;
 }
 
@@ -443,6 +461,42 @@ function cerrarModalCatalogoInfo() {
 // Cerrar cualquier modal
 function cerrarModal(modalId) {
   document.getElementById(modalId).classList.add('hidden');
+}
+
+// Modifica la función de agregar producto para leer la imagen como base64 y guardarla en la base de datos
+function agregarProducto() {
+  const nombre = document.getElementById('nombreProducto').value;
+  const precio = document.getElementById('precioProducto').value;
+  const descripcion = document.getElementById('descripcionProducto').value;
+  const imagenInput = document.getElementById('imagenProducto');
+  const archivo = imagenInput.files[0];
+
+  if (!archivo) {
+    alert('Selecciona una imagen');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imagenBase64 = e.target.result; // Esto es un string base64
+
+    // Envía el producto al backend (ajusta la URL y método según tu API)
+    fetch('http://localhost:3000/productos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre,
+        precio,
+        descripcion,
+        imagen: imagenBase64 // Guarda la imagen como base64 en la base de datos
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      // Actualiza la vista o recarga productos
+    });
+  };
+  reader.readAsDataURL(archivo);
 }
 </script>
 </body>
